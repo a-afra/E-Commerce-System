@@ -32,3 +32,9 @@ class Customer(AbstractBaseUser):
 
     def __str__(self):
         return self.username
+
+
+class Order(models.Model):
+    customer = models.ForeignKey(Customer, related_name='orders', on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    detail = models.CharField(max_length=200, blank=True)
