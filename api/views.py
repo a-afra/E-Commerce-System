@@ -6,17 +6,16 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.serializers import ValidationError
 from django.contrib.auth import login, logout
-from accounts.models import Customer
-from .serializers import CustomerSerializer
+from accounts.models import Customer, Order
+from .serializers import CustomerSerializer, OrderDetailSerializer
 
 
 # Create your views here.
-# authenticated customers can see list of customers
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def customer_list(request):
-    customers = Customer.objects.all()
-    serializer = CustomerSerializer(customers, many=True)
+def customer_info(request):
+    customer = Customer.objects.filter(username=request.user.username)
+    serializer = CustomerSerializer(customer, many=True, context={'request': request})
     return Response(serializer.data)
 
 
@@ -72,6 +71,15 @@ def customer_login(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def customer_logout(request):
+    username = request.user.username
     request.user.auth_token.delete()
     logout(request)
-    return Response('Customer logged out successfully.', status=status.HTTP_200_OK)
+    return Response(f'User: {username} logged out.', status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def order_detail(request, pk):
+    order = Order.objects.filter(id=pk)
+    serializer = OrderDetailSerializer(order, many=True)
+    return Response(serializer.data)
