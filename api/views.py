@@ -19,6 +19,19 @@ def customer_info(request):
     return Response(serializer.data)
 
 
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def customer_update(request):
+    customer = Customer.objects.get(username=request.user.username)
+    serializer = CustomerSerializer(customer, data=request.data, partial=True,
+                                    context={'request': request})
+    if serializer.is_valid():
+        serializer.save()
+        data = {'message': 'Account has been updated.', 'data': serializer.data}
+        return Response(data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def customer_signup(request):

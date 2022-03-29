@@ -24,6 +24,8 @@ class Customer(AbstractBaseUser):
     username = models.CharField(max_length=100, unique=True)
     email = models.EmailField(max_length=100, unique=True)
     password = models.CharField(max_length=10)
+    detail = models.CharField(max_length=200, blank=True, null=True)
+    street_name = models.CharField(max_length=100, blank=True, null=True)
 
     # unique identifier for Customer model
     # alternatively we can use email instead of username
@@ -37,4 +39,5 @@ class Customer(AbstractBaseUser):
 class Order(models.Model):
     customer = models.ForeignKey(Customer, related_name='orders', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
-    detail = models.CharField(max_length=200, blank=True)
+    detail = models.CharField(max_length=200, blank=True, null=True)
+    items = models.IntegerField(default=1)
