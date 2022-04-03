@@ -24,7 +24,7 @@ class Customer(AbstractBaseUser):
     username = models.CharField(max_length=100, unique=True)
     email = models.EmailField(max_length=100, unique=True)
     password = models.CharField(max_length=10)
-    detail = models.CharField(max_length=200, blank=True, null=True)
+    description = models.CharField(max_length=200, blank=True, null=True)
     street_name = models.CharField(max_length=100, blank=True, null=True)
 
     # unique identifier for Customer model

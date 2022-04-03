@@ -20,7 +20,7 @@ class CustomerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Customer
-        fields = ['id', 'username', 'email', 'password', 'street_name', 'detail', 'orders']
+        fields = ['id', 'username', 'email', 'password', 'street_name', 'description', 'orders']
         # password field will not appear in response to GET requests
         extra_kwargs = {'password': {'write_only': True}}
 
@@ -34,6 +34,6 @@ class CustomerSerializer(serializers.ModelSerializer):
         instance.username = validated_data.get('username', instance.username)
         instance.email = validated_data.get('email', instance.email)
         instance.street_name = validated_data.get('street_name', instance.street_name)
-        instance.detail = validated_data.get('detail', instance.detail)
+        instance.description = validated_data.get('description', instance.description)
         instance.save()
         return instance

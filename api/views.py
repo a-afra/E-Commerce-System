@@ -78,7 +78,7 @@ def customer_login(request):
         data['token'] = token
         return Response(data, status=status.HTTP_200_OK)
     else:
-        raise ValidationError('customer not found.')
+        raise ValidationError('Customer not found.')
 
 
 @api_view(['GET'])
