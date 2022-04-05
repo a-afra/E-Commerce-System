@@ -4,11 +4,10 @@ from django.contrib.auth.models import AbstractBaseUser
 
 
 # Create your models here.
-# we create a custom user model
-class AccountManager(BaseUserManager):
+class CustomUserManager(BaseUserManager):
     def create_user(self, username, email, password=None):
         if not username:
-            raise ValueError('Customer must have a username.')
+            raise ValueError('Customer must has a username.')
 
         user = self.model(username=username, email=self.normalize_email(email))
 
@@ -30,7 +29,8 @@ class Customer(AbstractBaseUser):
     # unique identifier for Customer model
     # alternatively we can use email instead of username
     USERNAME_FIELD = 'username'
-    objects = AccountManager()
+
+    objects = CustomUserManager()
 
     def __str__(self):
         return self.username
